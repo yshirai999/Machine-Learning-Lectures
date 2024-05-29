@@ -7534,13 +7534,15 @@ a.anchor-link {
 </li>
 <li><p>You may consult chapter 18 of "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd Edition, by Aurelien Geron (O'Reilly), 2022," for a basic introduction to Reinforcement Learning.</p>
 </li>
-<li><p>The main reference for the theory is "Reinforcement Learning: an Introduction, 2nd Edition, by Richard Sutton and Andrew Barto (MIT Press), 2018"</p>
+<li><p>The main reference for the theory are:</p>
+<ul>
+<li>"Reinforcement Learning: an Introduction, 2nd Edition, by Richard Sutton and Andrew Barto (MIT Press), 2018"</li>
+<li><a href="https://www.davidsilver.uk/teaching/">https://www.davidsilver.uk/teaching/</a></li>
+</ul>
 </li>
-<li><p>Perhaps the best and quickest resource I know of is <a href="https://www.davidsilver.uk/teaching/">https://www.davidsilver.uk/teaching/</a></p>
+<li><p>For the <code>Gymnasium API</code>, which is one of the main interfaces for creating new environments, see <a href="https://gymnasium.farama.org/">https://gymnasium.farama.org/</a></p>
 </li>
-<li><p>For the Gymnasium API, which is one of the main interfaces for creating new environments, see <a href="https://gymnasium.farama.org/">https://gymnasium.farama.org/</a></p>
-</li>
-<li><p>For training, I recommend <a href="https://stable-baselines3.readthedocs.io/en/master/index.html">https://stable-baselines3.readthedocs.io/en/master/index.html</a>, an easy to use RL library that supports gym environments and has a good and active community.</p>
+<li><p>Documentation on <code>stable-baselines3</code> is available at <a href="https://stable-baselines3.readthedocs.io/en/master/index.html">https://stable-baselines3.readthedocs.io/en/master/index.html</a></p>
 </li>
 </ul>
 </div>
@@ -7558,7 +7560,7 @@ a.anchor-link {
 </li>
 <li><p>Review and construction of Gym environments</p>
 </li>
-<li><p>Review of training libraries</p>
+<li><p>Training with <code>stable-baselines3</code></p>
 </li>
 </ul>
 </div>
@@ -7616,7 +7618,7 @@ a.anchor-link {
   \end{align*}
 where $\gamma$ is a discount factor and
 \begin{align*}
-  G_t^{\pi}=\sum_{k=0}^{\infty}\gamma^{\tau}R_{\pi(s_{t+k})}(s_{t+k},s_{t+k+1})
+  G_t^{\pi}=\sum_{k=0}^{\infty}\gamma^{k}R_{\pi(s_{t+k})}(s_{t+k},s_{t+k+1})
   \end{align*}</li>
 </ul>
 </li>
@@ -7636,7 +7638,7 @@ where $\gamma$ is a discount factor and
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6749e45">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=85259be1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7647,17 +7649,17 @@ where $\gamma$ is a discount factor and
 <ul>
 <li>the <strong>value function</strong> $V^{\pi}:S\rightarrow \mathbb{R}$ by
 \begin{align*}
-  V^{\pi}(s):=\mathbb{E}[G^{\pi}_t|s_t=s]
+  v^{\pi}(s):=\mathbb{E}[G^{\pi}_t|s_t=s]
   \end{align*}</li>
 <li>the <strong>action-value function</strong> $q^{\pi}:S\times A\rightarrow \mathbb{R}$ by
 \begin{align*}
-  q^{\pi}(s,a):=\mathbb{E}[R_{a}(s_t,s_{t+1})+V^{\pi}(s_{t+1})|s_t=s],
+  q^{\pi}(s,a):=\mathbb{E}[R_{a}(s_t,s_{t+1})+v^{\pi}(s_{t+1})|s_t=s],
   \end{align*}</li>
 </ul>
 </li>
 <li><p>Note that:
 \begin{align}
-V^{\pi}(s)&amp;=\mathbb{E}[R_{\pi(s)}(s,s_{t+1})+\gamma V^{\pi}(s_{t+1})|s_t=s] \\
+v^{\pi}(s)&amp;=\mathbb{E}[R_{\pi(s)}(s,s_{t+1})+\gamma v^{\pi}(s_{t+1})|s_t=s] \\
 q^{\pi}(s,a)&amp;=\mathbb{E}[R_{a}(s,s_{t+1})+\gamma q^{\pi}(s_{t+1},\pi(s_{t+1}))|s_t=s,a_t=a]
 \end{align}</p>
 </li>
@@ -7684,7 +7686,7 @@ q^*(s,a)=\mathbb{E}\left[R_a(s,s_{t+1})+\max_a q^*(s_{t+1},a)|s_t=s\right] \tag{
 v^*(s)=\max_a\mathbb{E}[R_a(s,s_{t+1})+\gamma v^*(s_{t+1})|s_t=s,a_t=a]\tag{4}
 \end{align*}</p>
 </li>
-<li><p>If there are $N$ states, then (3) (or, equivalently, (4)) is a system of $N$ equations in $N$ unknowns, and can be solved numerically if the transition dynamics $p$ is known</p>
+<li><p>If there are $N$ states, then (3) (or, equivalently, (4)) is a system of $N$ equations in $N$ unknowns, and can be solved numerically if the transition dynamics $p$ is known.</p>
 </li>
 </ul>
 </div>
@@ -7702,7 +7704,7 @@ v^*(s)=\max_a\mathbb{E}[R_a(s,s_{t+1})+\gamma v^*(s_{t+1})|s_t=s,a_t=a]\tag{4}
 </li>
 <li><p>Any method to solve the Bellman equation (3) is considered DP</p>
 </li>
-<li><p>Typically, we do not know tha transition dynamics $p$ of an MDP</p>
+<li><p>Typically, we do not know the transition dynamics $p$ of an MDP</p>
 </li>
 <li><p>However, the DP approach is the starting point of many RL algorithms, so it's good to take a look at it</p>
 </li>
@@ -7766,7 +7768,15 @@ v^{\pi}(s)=\max_a\mathbb{E}[R_a(s,s_{t+1})+\gamma v^{\pi}(s_{t+1})|s_t=s,a_t=a],
 \end{align*}
 i.e., $\pi$ satisfies the Bellman optimality principle, and so $\pi=\pi^*$</p>
 </li>
-<li><p>Hence, a strategy to obtain $\pi^*$ is to start with a random policy $\pi_0$, evaluate $v^{\pi_0}$, obtain the Bellman update $\pi_1$ by acting greedily on $\pi_0$, evaluate $v^{\pi_1}$, obtain the Bellman update $\pi_2$ by acting greedily on $\pi_1$, and so on.</p>
+<li><p>Hence, a strategy to obtain $\pi^*$ is to</p>
+<ul>
+<li>start with a random policy $\pi_0$,</li>
+<li>evaluate $v^{\pi_0}$,</li>
+<li>obtain the Bellman update $\pi_1$ by acting greedily on $\pi_0$,</li>
+<li>evaluate $v^{\pi_1}$,</li>
+<li>obtain the Bellman update $\pi_2$ by acting greedily on $\pi_1$,</li>
+<li>and so on.</li>
+</ul>
 </li>
 <li><p>It is possible to show that such an iteration indeed converges to a policy $\pi^*$ which is optimal</p>
 </li>
@@ -7813,7 +7823,7 @@ i.e., $\pi$ satisfies the Bellman optimality principle, and so $\pi=\pi^*$</p>
 <h2 id="1.4-Temporal-Difference-Learning">1.4 Temporal Difference Learning<a class="anchor-link" href="#1.4-Temporal-Difference-Learning">¶</a></h2><ul>
 <li><p>In practice, both the transition dynamics $p$ and/or the reward function $R$ may not be known</p>
 </li>
-<li><p>Even in simulated environments, which are fully known, it is more interesting to see develop model-free methods to find optimal policies, so that succesfull training methods in such environments may then be exported to train an AI with real world data</p>
+<li><p>Even in simulated environments, which are fully known, it is more interesting to develop model-free methods to find optimal policies, so that succesfull training methods in such environments may then be exported to train an AI with real world data</p>
 </li>
 <li><p>The first approach we consider is called Temporal Difference Learning (TD)</p>
 </li>
@@ -7871,18 +7881,18 @@ This update is then repeated for each step until termination of a prespecified n
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="1.4.2-On-Policy-TD-Control:-SARSA">1.4.2 On Policy TD Control: SARSA<a class="anchor-link" href="#1.4.2-On-Policy-TD-Control:-SARSA">¶</a></h3><ul>
-<li><p>In a similar way, the function action-value function $q^{\pi}$ may be learned, and a policy $\pi$ be improved based on the update
+<li><p>In a similar way, the action-value function $q^{\pi}$ may be learned, and a policy $\pi$ be improved based on the update
 \begin{align*}
 q^{\pi}_{k+1}(s,a)=(1-\alpha)q^{\pi}_k(s,a)+\alpha \left(R_{a}(s,s_1)+\gamma q_k^{\pi}(s_1,a_1)\right)\tag{6}
 \end{align*}</p>
 </li>
-<li><p>Figure below shows the so called SARSA algorithm corresponding to the update (6)</p>
+<li><p>The figure below shows the so called SARSA algorithm corresponding to the update (6)</p>
 <ul>
-<li>The name is due to the fact that the following sequence state-action pairs is observed/taken before the update:</li>
+<li>The name is due to the fact that the following sequence of state-action pairs is observed/taken before the update:</li>
 <li>S is observed, action A is taken, R is observed, S is observed, A' is taken, S' is observed</li>
 </ul>
 </li>
-<li><p>Acting $\epsilon$-greedily in the figure below means: act greedily with probability $1-\epsilon$ and choose randomly wit probability $\epsilon$, that is, the policy followed to generate the $k+1$-update is
+<li><p>Acting $\epsilon$-greedily in the figure below means: act greedily with probability $1-\epsilon$ and choose randomly with probability $\epsilon$, that is, the policy followed to generate the $k+1$-update is
 \begin{align*}
 \pi^{\epsilon}(s)=\begin{cases}
 \text{arg}\max_a q^{\pi}_k(s,a) \text{ w.p. } 1-\epsilon\\
@@ -8217,20 +8227,163 @@ q^{\pi}_{k+1}(s,a)=(1-\alpha)q^{\pi}_k(s,a)+\alpha \left(R_{a}(s,s_1)+\gamma \ma
 <pre>Action Space: Discrete(5)
 Action Space Sample: 0
 Observation Space: MultiDiscrete([3 3])
-Observation Space Sample: [2 0]
+Observation Space Sample: [0 1]
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=48e2a942">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6302a04">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="2.5-Box2D-Environment">2.5 Box2D Environment<a class="anchor-link" href="#2.5-Box2D-Environment">¶</a></h1><ul>
+<h1 id="3-Training-a-Gym-Environment">3 Training a Gym Environment<a class="anchor-link" href="#3-Training-a-Gym-Environment">¶</a></h1>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e2f568e2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
+
+<span class="kn">from</span> <span class="nn">stable_baselines3</span> <span class="kn">import</span> <span class="n">DQN</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.common.evaluation</span> <span class="kn">import</span> <span class="n">evaluate_policy</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4795c17b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create environment</span>
+<span class="c1"># For training purposes we do not want to render the env</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">"LunarLander-v2"</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">"rgb_array"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c9d43404">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Instantiate the agent</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="p">(</span><span class="s2">"MlpPolicy"</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"dqn_lunar"</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Train the agent and display a progress bar</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">total_timesteps</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">2e5</span><span class="p">),</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Save the agent</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"dqn_lunar"</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">model</span>  <span class="c1"># delete trained model to demonstrate loading</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7ee9f320">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load the trained agent</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"dqn_lunar"</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the agent</span>
+<span class="n">mean_reward</span><span class="p">,</span> <span class="n">std_reward</span> <span class="o">=</span> <span class="n">evaluate_policy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">get_env</span><span class="p">(),</span> <span class="n">n_eval_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">mean_reward</span><span class="p">,</span> <span class="n">std_reward</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>-117.94791639999998 22.507056284554675
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=96df8e21">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We can also render the LunarLander environment and compare our trained agent with the random one previously seen</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=17a425ec">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># NOTE: SB3 supports a previous version of Gymnasium, which means that</span>
+<span class="c1">#       model.predict takes as input a different type of observation</span>
+<span class="c1">#       than the output of the reset method. Hence, we need to adapt</span>
+<span class="c1">#       obs to the correct type to pass to model.predict. Similarly</span>
+<span class="c1">#       for the output of predict, which is not of the same type as the</span>
+<span class="c1">#       input to step method of the latest version of Gymnasium</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">"LunarLander-v2"</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">"human"</span><span class="p">)</span>
+<span class="n">vec_env</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_env</span><span class="p">()</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">vec_env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">obs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">))]]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">action</span><span class="p">,</span> <span class="n">_states</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">deterministic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">obs</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">obs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">))]]</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d8031f17">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="4-Box2D-Environment">4 Box2D Environment<a class="anchor-link" href="#4-Box2D-Environment">¶</a></h1><ul>
 <li><p>When creating a gym environment is often important to visualize it - especially when it comes to games</p>
 </li>
 <li><p>Box2D is a library, written in C++, with extensive documentation and online examples</p>
@@ -8244,7 +8397,7 @@ Observation Space Sample: [2 0]
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ed799194">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6dbd0688">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8263,7 +8416,7 @@ Observation Space Sample: [2 0]
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2f816dd9">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f2b729d8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8470,7 +8623,7 @@ Observation Space Sample: [2 0]
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6bd1741d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d75c74b4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8507,181 +8660,6 @@ Observation Space Sample: [2 0]
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Landing achieved, current altitute =  2.014650821685791
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6302a04">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="3-Training-a-Gym-Environment">3 Training a Gym Environment<a class="anchor-link" href="#3-Training-a-Gym-Environment">¶</a></h1>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e2f568e2">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
-
-<span class="kn">from</span> <span class="nn">stable_baselines3</span> <span class="kn">import</span> <span class="n">DQN</span>
-<span class="kn">from</span> <span class="nn">stable_baselines3.common.evaluation</span> <span class="kn">import</span> <span class="n">evaluate_policy</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4795c17b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create environment</span>
-<span class="c1"># For training purposes we do not want to render the env</span>
-<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">"LunarLander-v2"</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">"rgb_array"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c9d43404">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Instantiate the agent</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="p">(</span><span class="s2">"MlpPolicy"</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="c1"># Train the agent and display a progress bar</span>
-<span class="n">model</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">total_timesteps</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">2e5</span><span class="p">),</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># Save the agent</span>
-<span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"dqn_lunar"</span><span class="p">)</span>
-<span class="k">del</span> <span class="n">model</span>  <span class="c1"># delete trained model to demonstrate loading</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Output()</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8a512a5e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7ee9f320">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load the trained agent</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"dqn_lunar"</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
-
-<span class="c1"># Evaluate the agent</span>
-<span class="n">mean_reward</span><span class="p">,</span> <span class="n">std_reward</span> <span class="o">=</span> <span class="n">evaluate_policy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">get_env</span><span class="p">(),</span> <span class="n">n_eval_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">mean_reward</span><span class="p">,</span> <span class="n">std_reward</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>-117.01275190000001 18.3408638509408
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=96df8e21">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We can also render the LunarLander environment and compare our trained agent with the random one previously seen</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=17a425ec">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># NOTE: SB3 supports a previous version of Gymnasium, which means that</span>
-<span class="c1">#       model.predict takes as input a different type of observation</span>
-<span class="c1">#       than the output of the reset method. Hence, we need to adapt</span>
-<span class="c1">#       obs to the correct type to pass to model.predict. Similarly</span>
-<span class="c1">#       for the output of predict, which is not of the same type as the</span>
-<span class="c1">#       input to step method of the latest version of Gymnasium</span>
-
-<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">"LunarLander-v2"</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s2">"human"</span><span class="p">)</span>
-<span class="n">vec_env</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_env</span><span class="p">()</span>
-<span class="n">obs</span> <span class="o">=</span> <span class="n">vec_env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="n">obs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">obs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">))]]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">action</span><span class="p">,</span> <span class="n">_states</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">deterministic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">obs</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">obs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">obs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">))]]</span>
-
-<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
 </div>
 </div>
 </div>
