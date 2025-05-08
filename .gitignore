@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Allow only Lecture19.ipynb and Lecture20.ipynb
+!Lecture19.ipynb
+!Lecture20.ipynb
+
+# Allow the .gitignore file itself
+!.gitignore
