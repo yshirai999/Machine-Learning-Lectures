@@ -2,6 +2,7 @@
 *
 
 # Allow lectures
+!Lectures/
 !Lectures/*.ipynb
 # Allow the readme file
 !README.md
