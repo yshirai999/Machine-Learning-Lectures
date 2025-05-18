@@ -1,10 +1,10 @@
 # Ignore everything
 *
 
-# Allow only Lecture19.ipynb and Lecture20.ipynb
-!Reinforcement Learning.ipynb
-!Self-Attention for Time Series.ipynb
-!Lecture0.ipynb
+# Allow lectures
+!Lectures/*.ipynb
+# Allow the readme file
+!README.md
 
 # Allow the .gitignore file itself
 !.gitignore
